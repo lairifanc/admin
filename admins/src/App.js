@@ -7,15 +7,8 @@ import Administartor from './pages/Administartor/Administartor'
 import Audit from './pages/Audit/Audit'
 import Home from './pages/Home/Home'
 import Slideshow from './pages/Slideshow/Slideshow'
-
-
-
-
+import SlideAdd from '@pages/Slideshow/SlideAdd'
 import {HashRouter,Route,Redirect,Switch} from 'react-router-dom'
-
-
-
-
 
 function App() {
   return (
@@ -31,6 +24,7 @@ function App() {
                 <Route path='/admin/home' component={Home}></Route>
                 <Route path='/admin/administartor' component={Administartor}></Route>
                 <Route path='/admin/slideshow' component={Slideshow}></Route>
+                <Route path='/admin/slideadd' component={SlideAdd}></Route>
                 <Route path='/admin/audit' component={Audit}></Route>
                 <Route path='/admin/set' component={AdminSte}></Route>
               </Admin>

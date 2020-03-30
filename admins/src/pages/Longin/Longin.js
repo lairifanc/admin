@@ -30,7 +30,7 @@ class Login extends Component {
             // 执行方法发送请求拿数据
             Api.enter({userName,passWord}).then((data)=>{
                 // 获取到的数据判断  404登入失败  200成功
-                if (data.err==404) {
+                if (data.err===404) {
                     message.error('用户名或密码错误');
                 }else{
                     message.success('登入成功3s后跳转页面',3,()=>{
@@ -94,12 +94,12 @@ class Login extends Component {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>记住密码</Checkbox>)}
-          <a className="login-form-forgot" href="">
+          <span className="login-form-forgot">
             忘记密码
-          </a> <Button type="primary" htmlType="submit" className="login-form-button">
+          </span> <Button type="primary" htmlType="submit" className="login-form-button">
             登 入
           </Button>
-          <a href=""> 立即注册!</a>
+          <span> 立即注册!</span>
         </Form.Item>
       </Form>
       </div>

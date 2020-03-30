@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout} from 'antd';
 import Ui from '../../components/CustomNav/CustomNav'
 const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+
 export default class Admin extends Component {
     state = {
         collapsed: false,
@@ -23,8 +23,6 @@ export default class Admin extends Component {
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <Ui></Ui>
         </Sider>
-
-
         <Layout>
                 {/* 头部 */}
           <Header style={{ background: '#fff', padding: 0 }} />
