@@ -16,6 +16,7 @@ class SlideAdd extends Component{
     upload = async ()=>{
         let file = this.refs.img.files[0]
         if(!file){return message.error('请先上传一张图片')}
+        console.log(file);
         let {size,type} = file
         let types = ['jpg','jpeg','png','gif']
         if(size>1000000){return message.warning('图片超过1m')}
@@ -27,8 +28,9 @@ class SlideAdd extends Component{
         this.setState({path})
     }
     add = async()=>{
+        let {id} = this.props.match.params
         if(!this.state.path){return message.info('请先上传图片')}
-        let {code,msg} = await SlideApi.add(this.state)
+        let {code,msg} = await SlideApi.update(id,this.state)
         if(code){return message.error(msg)}
         this.props.history.replace('/admin/slideshow')
     } 
@@ -48,7 +50,7 @@ class SlideAdd extends Component{
                     }}></Input><br/>
                     图片:<input type="file" ref='img' className={style.input}/> <button onClick={this.upload}>上传图片</button>
                         <img width='120' height='80' src={config.serverIp+path} alt=""/>
-                        <button onClick={this.add}>添加</button>
+                        <button onClick={this.add}>修改</button>
                 </Card>
             </div>
         )

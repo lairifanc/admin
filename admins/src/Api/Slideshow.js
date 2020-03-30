@@ -12,6 +12,16 @@ class Slide{
         let url = `/axios/slideshow/del?id=${_id}`
         return axios.delete(url)
     }
+    // 轮播图添加接口
+    add(payload){
+        let url = '/axios/slideshow/add'
+        return axios.post(url, payload)
+    }
+    // 轮播图修改接口
+    update(_id,payload) {
+      let url = `/axios/slideshow/updata?id=${_id}`
+      return axios.put(url,payload)
+    }
 }
 
 export default new Slide()

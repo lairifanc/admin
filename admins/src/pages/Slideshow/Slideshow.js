@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Card,Table,Button,Popconfirm, message} from 'antd'
 import SlideApi from '@Api/Slideshow'
+import config from '@config/index'
 export default class Slideshow extends Component {
     state = {
         list:[],
@@ -24,7 +25,12 @@ export default class Slideshow extends Component {
             {
                 title:'图片',
                 dataIndex:'path',
-                key:'path'
+                key:'path',
+                render:(recode)=>{
+                    console.log(recode);
+                    let result = config.serverIp + recode
+                    return(<img  width ='150' height='80'src={result}/>)
+                },
             },
             {
                 title:'链接地址',
@@ -42,9 +48,13 @@ export default class Slideshow extends Component {
                             >
                                 <Button type='danger' size='small'>删除</Button><br/>
                             </Popconfirm>
-                            <Popconfirm title='确定修改吗？'>
-                                <Button type='primary' size='small'>修改</Button>
-                            </Popconfirm>
+                            
+                            <Button type='primary' size='small'
+                            onClick={()=>{
+                                console.log(this);
+                                this.props.history.replace(`/admin/slideupdate/${recode._id}`)
+                            }}
+                            >修改</Button>
                             
                         </div>
                     )
@@ -74,7 +84,7 @@ export default class Slideshow extends Component {
                 <Card title='轮播图'>
                     <Button type='primary'
                     onClick={()=>{
-                        console.log(this);
+
                         this.props.history.replace('/admin/slideAdd')
                     }}
                     >
