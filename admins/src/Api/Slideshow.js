@@ -3,9 +3,9 @@ import axios from '../utils/index'
 
 class Slide{
     // 轮播图查询接口
-    list(){
+    list(page=1,pageSize=2){
         let url = '/axios/slideshow/find'
-        return axios.get(url)
+        return axios.get(url,{params:{page,pageSize}})
     }
     // 轮播图删除接口
     del(_id){

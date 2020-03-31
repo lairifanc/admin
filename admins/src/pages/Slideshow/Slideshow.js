@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import {Card,Table,Button,Popconfirm, message} from 'antd'
+import {Card,Table,Button,Popconfirm, message,Pagination} from 'antd'
 import SlideApi from '@Api/Slideshow'
 import config from '@config/index'
 export default class Slideshow extends Component {
     state = {
         list:[],
+        page:1,
+        pageSize:2,
+        pages:0,
         columns:[
             {
             title:'_id',
@@ -27,7 +30,6 @@ export default class Slideshow extends Component {
                 dataIndex:'path',
                 key:'path',
                 render:(recode)=>{
-                    console.log(recode);
                     let result = config.serverIp + recode
                     return(<img width ='150' height='80'src={result} alt=''/>)
                 },
@@ -55,7 +57,6 @@ export default class Slideshow extends Component {
                                 this.props.history.replace(`/admin/slideupdate/${recode._id}`)
                             }}
                             >修改</Button>
-                            
                         </div>
                     )
                 }
@@ -64,9 +65,9 @@ export default class Slideshow extends Component {
     }
     //获取轮播数据
     slide = async ()=>{
-        let {data} = await SlideApi.list()
-        console.log(data);
-        this.setState({list:data})
+        let {page,pageSize} = this.state
+        let {data,pages} = await SlideApi.list(page,pageSize)
+        this.setState({list:data,pages})
        
     }
     del = async(_id)=>{
@@ -78,21 +79,32 @@ export default class Slideshow extends Component {
         this.slide()
     }
     render() {
-        let {columns,list} = this.state
+        let {columns,list,page,pageSize,pages} = this.state
         return (
             <div>
                 <Card title='轮播图'>
-                    <Button type='primary'
+                    <Button type='primary' icon="plus"
                     onClick={()=>{
 
                         this.props.history.replace('/admin/slideAdd')
                     }}
                     >
                     添加轮播图</Button>
-                    <Table dataSource={list} columns={columns} rowKey='_id'>
+                    <Table dataSource={list} columns={columns} rowKey='_id' pagination={false}>
                     
                     </Table>
+                    {/* 分页器 */}
+                <Pagination
+                 current={page} total={pages} showQuickJumper pageSize={pageSize}
+                   onChange={(page)=>{
+                        //只要页码数发生改变就会触发          
+                        this.setState({page},()=>{
+                            this.slide()
+                        })   
+                    }}
+                />
                 </Card>
+                
             </div>
         )
     }
