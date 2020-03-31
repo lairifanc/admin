@@ -29,7 +29,7 @@ export default class Slideshow extends Component {
                 render:(recode)=>{
                     console.log(recode);
                     let result = config.serverIp + recode
-                    return(<img  width ='150' height='80'src={result}/>)
+                    return(<img width ='150' height='80'src={result} alt=''/>)
                 },
             },
             {
