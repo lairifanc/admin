@@ -15,6 +15,7 @@ class Administartor {
         let url = `/axios/user/register`
         return axios.post(url,{userName, passWord})
     }
+    
 }
 
 export default new Administartor()

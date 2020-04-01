@@ -37,6 +37,11 @@ export default class Administartor extends Component {
                         >
                             <Button type='danger' size='small'>删除</Button><br/>
                         </Popconfirm>
+                        <Button type='primary' size='small'
+                            onClick={()=>{
+                                this.props.history.replace(`/admin/adminupdate/${recode._id}`)
+                            }}
+                        >修改</Button>
                         </div>
                     )
                }
@@ -56,7 +61,6 @@ export default class Administartor extends Component {
     add = async()=>{
         let {passWord,userName} = this.state
         let result = await AdminApi.add(userName,passWord)
-        console.log(result);
         if (result.err!==200){ return notification.error({description:'管理员添加失败，请详细检查传输',message:'错误',duration:1.5})}
         notification.success({description:'管理员添ok，模态框即将关闭',message:'成功',duration:1.5})
         this.setState({visible:false})

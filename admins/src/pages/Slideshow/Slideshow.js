@@ -53,7 +53,6 @@ export default class Slideshow extends Component {
                             
                             <Button type='primary' size='small'
                             onClick={()=>{
-                                console.log(this);
                                 this.props.history.replace(`/admin/slideupdate/${recode._id}`)
                             }}
                             >修改</Button>

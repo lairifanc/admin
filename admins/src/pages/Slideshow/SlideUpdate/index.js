@@ -6,17 +6,23 @@ import config from '@config/index'
 import SlideApi from  '@Api/Slideshow'
 class SlideAdd extends Component{
     state = {
-        "name":'名字',
-        "desc":'描述',
-        "link":'http://www.baidu.com',
-        "path":'null'
+        list:[],
+        name:'名字',
+        desc:'描述',
+        link:'链接',
     }
-
+    findone = async ()=>{
+        let {id} = this.props.match.params
+        let {data} = await SlideApi.findone(id)
+        this.setState({name:data[0].name,desc:data[0].desc,link:data[0].link})
+    }
+    componentDidMount(){
+        this.findone()
+    }
     // 上传图片
     upload = async ()=>{
         let file = this.refs.img.files[0]
         if(!file){return message.error('请先上传一张图片')}
-        console.log(file);
         let {size,type} = file
         let types = ['jpg','jpeg','png','gif']
         if(size>1000000){return message.warning('图片超过1m')}
@@ -27,7 +33,7 @@ class SlideAdd extends Component{
         if(code){return message.error(msg)}
         this.setState({path})
     }
-    add = async()=>{
+    add = async()=>{ 
         let {id} = this.props.match.params
         if(!this.state.path){return message.info('请先上传图片')}
         let {code,msg} = await SlideApi.update(id,this.state)
@@ -36,6 +42,7 @@ class SlideAdd extends Component{
     } 
     render(h) {
         let {name,desc,link,path} = this.state
+        
         return(
             <div>
                 <Card title='轮播图添加'>

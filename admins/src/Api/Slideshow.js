@@ -22,6 +22,12 @@ class Slide{
       let url = `/axios/slideshow/updata?id=${_id}`
       return axios.put(url,payload)
     }
+    // 查询一条数据
+    findone(_id){
+        let url = `/axios/slideshow/findOne?id=${_id}`
+        return axios.get(url,_id)
+    }
+    
 }
 
 export default new Slide()
