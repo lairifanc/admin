@@ -296,8 +296,13 @@ module.exports = function(webpackEnv) {
         ...(isEnvProductionProfile && {
           'react-dom$': 'react-dom/profiling',
           'scheduler/tracing': 'scheduler/tracing-profiling',
+          
         }),
         ...(modules.webpackAliases || {}),
+        '@pages':path.join(__dirname, '../src/pages'),
+        '@Api':path.join(__dirname,'../src/Api'),
+        '@utils':path.join(__dirname,'../src/utils'),
+        '@config':path.join(__dirname,'../src/config')
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
