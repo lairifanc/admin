@@ -4,6 +4,9 @@ import axios from 'axios'
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
     // Do something before request is sent
+    //在拦截器里添加请求头
+    let token =localStorage.getItem('token')?'Bearer '+localStorage.getItem('token'):''      
+    config.headers.authorization = token 
     return config;
   }, function (error) {
     // Do something with request error

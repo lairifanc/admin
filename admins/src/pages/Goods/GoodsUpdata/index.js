@@ -29,8 +29,9 @@ class GoodsUpdata extends Component{
      if(!this.state.path){return message.info('请先上传图片')}
      //调用修改的接口
 
-     let {err}=await goodsApi.updata(id,this.state)
-     if(!err){return message.error('mag')}
+     let {err,mag}=await goodsApi.updata(id,this.state)
+     if(err==403){return message.error(mag)}
+     message.success(mag)
      this.props.history.replace('/admin/goodsadd')
     }
     //图片上传
@@ -47,7 +48,7 @@ class GoodsUpdata extends Component{
     //将图片转化为fromdata
     let fromdata=new FormData()
     fromdata.append('src',file)
-    let {err,mag,path}=await uploadApi.img(fromdata)
+    let {err,mag,path}=await uploadApi.upload(fromdata)
     if(!err){return message.error(mag)}
     this.setState({path})
     }
@@ -58,7 +59,7 @@ class GoodsUpdata extends Component{
         if(basePath.indexOf('base64')==-1){basePath=config.serverIp+path}
       return(
        <div className={style.box}>
-           <Card title="商品添加">
+           <Card title="商品修改">
              名称：<input type='text' value={name} onChange={(e)=>{this.setState({name:e.target.value})}}/><br/>
              描述：<input type='text' value={desc} onChange={(e)=>{this.setState({desc:e.target.value})}}/><br/>
              链接：<input type='text' value={link} onChange={(e)=>{this.setState({link:e.target.value})}}/><br/>

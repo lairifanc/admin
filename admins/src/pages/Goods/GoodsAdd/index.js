@@ -18,9 +18,13 @@ class GoodsAdd extends Component{
     //添加商品
     submit=async()=>{
      if(!this.state.path){return message.info('请先上传图片')}
-     let {err}=await goodsApi.add(this.state)
-     if(!err){return message.error('mag')}
-     this.props.history.replace('/admin/goodsadd')
+     let {err,mag}=await goodsApi.add(this.state)
+     if (err==404) {return message.error(mag)}
+     else if(err==403){return message.error(mag)}
+     else if(err==200){this.props.history.replace('/admin/goodsadd')   
+     message.success(mag)}
+     
+    
     }
     //图片上传
     upload=async ()=>{
@@ -36,9 +40,12 @@ class GoodsAdd extends Component{
     //将图片转化为fromdata
     let fromdata=new FormData()
     fromdata.append('src',file)
-    let {err,mag,path}=await uploadApi.img(fromdata)
-    if(!err){return message.error(mag)}
-    this.setState({path})
+    let {err,mag,path}=await uploadApi.upload(fromdata)
+    if(err==200){
+      this.setState({path})
+      message.success(mag)
+    }
+    
     }
     render(){
         let {name,desc,path,stock,putaway,price,unit,link}=this.state

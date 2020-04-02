@@ -50,8 +50,12 @@ class Goods extends Component {
     //删除商品
     delGodds=async(_id)=>{
         let {err,mag}=await goodsApi.del(_id)
-        if(!err==200){return message.error(mag)}
-        this.getListData()
+        if(err==200){message.success(mag)
+            this.getListData()}
+        else if(err==403){
+            return message.error(mag)
+        }
+        
     }
     //获取商品数据
     getListData=async()=>{

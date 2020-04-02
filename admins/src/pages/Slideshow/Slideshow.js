@@ -6,7 +6,7 @@ export default class Slideshow extends Component {
     state = {
         list:[],
         page:1,
-        pageSize:2,
+        show:3,
         pages:0,
         columns:[
             {
@@ -64,21 +64,22 @@ export default class Slideshow extends Component {
     }
     //获取轮播数据
     slide = async ()=>{
-        let {page,pageSize} = this.state
-        let {data,pages} = await SlideApi.list(page,pageSize)
-        this.setState({list:data,pages})
+        let {page,show} = this.state
+        let {result,pages} = await SlideApi.list(page,show)
+        this.setState({list:result,pages})
        
     }
     del = async(_id)=>{
-        let {code,msg} = await SlideApi.del(_id)
-        if(code){return message.error(msg)}
+        let {err,mag} = await SlideApi.del(_id)
+        if(err==403){return message.error(mag)}else if(err==404){return message.error(mag)}
+        message.success(mag)
         this.slide()
     }
     componentDidMount(){
         this.slide()
     }
     render() {
-        let {columns,list,page,pageSize,pages} = this.state
+        let {columns,list,page,show,pages} = this.state
         return (
             <div>
                 <Card title='轮播图'>
@@ -93,14 +94,13 @@ export default class Slideshow extends Component {
                     
                     </Table>
                     {/* 分页器 */}
-                <Pagination
-                 current={page} total={pages} showQuickJumper pageSize={pageSize}
-                   onChange={(page)=>{
-                        //只要页码数发生改变就会触发          
-                        this.setState({page},()=>{
-                            this.slide()
-                        })   
-                    }}
+                    <Pagination defaultCurrent={1} total={pages} defaultCurrent={1} defaultPageSize={show}
+                onChange={(page)=>{
+                this.setState({page},()=>{
+                  this.slide()
+                })
+                 }}
+                
                 />
                 </Card>
                 

@@ -33,6 +33,7 @@ class Login extends Component {
                 if (data.err===404) {
                     message.error('用户名或密码错误');
                 }else{
+                  localStorage.setItem('token',data.token)
                     message.success('登入成功3s后跳转页面',3,()=>{
                         this.props.history.replace('/admin') 
                     });

@@ -5,9 +5,9 @@ class Api {
     return axios.delete(url)
     }
 
-    list(show=2,page=1){
-        let url ='/axios/audit/find'
-        return axios.get(url,{params:{show,page}}) 
+    list(show,page){
+        let url =`/axios/audit/find?show=${show}&page=${page}`
+        return axios.get(url) 
     }
     add(payload){
         let url ='/axios/audit/add'

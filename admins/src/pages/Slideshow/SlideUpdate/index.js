@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Card,Input, message} from 'antd'
 import style from './index.module.less'
-import UploadApi from '@Api/Upload'
+import UploadApi from '@Api/upload.js'
 import config from '@config/index'
 import SlideApi from  '@Api/Slideshow'
 class SlideAdd extends Component{
@@ -11,13 +11,10 @@ class SlideAdd extends Component{
         desc:'描述',
         link:'链接',
     }
-    findone = async ()=>{
+    async componentDidMount(){
         let {id} = this.props.match.params
         let {data} = await SlideApi.findone(id)
-        this.setState({name:data[0].name,desc:data[0].desc,link:data[0].link})
-    }
-    componentDidMount(){
-        this.findone()
+        this.setState({...data[0]})
     }
     // 上传图片
     upload = async ()=>{
@@ -29,15 +26,19 @@ class SlideAdd extends Component{
         if(types.indexOf(type.split('/')[1])===-1){return message.warning('图片类型只能是jpg,jpeg,gif,png')}
         let formData = new FormData()
         formData.append('src',file)
-        let {code,msg,path} = await UploadApi.upload(formData)
-        if(code){return message.error(msg)}
-        this.setState({path})
+        let {err,mag,path} = await UploadApi.upload(formData)
+        if(err==200){
+            message.success(mag)
+            this.setState({path})
+        }
+        
     }
     add = async()=>{ 
         let {id} = this.props.match.params
         if(!this.state.path){return message.info('请先上传图片')}
-        let {code,msg} = await SlideApi.update(id,this.state)
-        if(code){return message.error(msg)}
+        let {err,mag} = await SlideApi.update(id,this.state)
+        if(err==403){return message.error(mag)}else if(404==err){return message.error(mag)}
+        message.success(mag)
         this.props.history.replace('/admin/slideshow')
     } 
     render(h) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import style from  './index.module.less'
-import uploadApi from '../../../Api/Upload'
+import uploadApi from '../../../Api/upload'
 import Auditapi from '../../../Api/Audit'
 import config from '../../../config/index'
 import {Card, message} from 'antd';
@@ -22,9 +22,10 @@ class GoodsAdd extends Component {
   // 添加商品
   submit=async()=>{
    if (!this.state.path){return message.info('请先上传图片')}
-   let {code,msg}  = await Auditapi.add(this.state)
-   if(code){ return message.error(msg)}
+   let {err,mag}  = await Auditapi.add(this.state)
+   if(err==404){ return message.error(mag)}else if(err==403){ return message.error(mag)}
   //  console.log(this)
+   message.success('审核添加成功')
    this.props.history.replace('/admin/audit')
 
   }
@@ -42,9 +43,12 @@ class GoodsAdd extends Component {
     
      let formData = new FormData()
     formData.append('src',file)
-    let {code,msg,path} = await uploadApi.upload(formData)
-    if(code){return message.error(msg)}
-    this.setState({path})
+    let {err,mag,path} = await uploadApi.upload(formData)
+    if(err==200){
+      message.success(mag)
+      this.setState({path})
+    }
+    
     
   }
   render() { 
@@ -77,7 +81,7 @@ class GoodsAdd extends Component {
             {/* 缩略图 */}
             缩略图:
             <input type="file" ref='img'/> <button onClick={this.imgupload}>上传图片</button>
-            {config.serverIp}
+            {/* {config.serverIp} */}
             <img width='120' height='80' src={config.serverIp+path} alt=""/>
             <button onClick={this.submit}>添加</button>
          </Card>

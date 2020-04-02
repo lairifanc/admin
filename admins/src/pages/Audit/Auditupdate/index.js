@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import style from  './index.module.less'
-import uploadApi from '../../../Api/Upload'
+import uploadApi from '../../../Api/upload'
 import Auditapi from '../../../Api/Audit'
 import config from '../../../config/index'
 import {Card, message} from 'antd';
@@ -27,11 +27,11 @@ class GoodsAdd extends Component {
   submit=async()=>{
     let {id} =  this.props.match.params
    if (!this.state.path){return message.info('请先上传图片')}
-   let {code,msg}  = await Auditapi.upDate(id,this.state)
-   if(code !==200){ return message.error(msg)}
+   let {err,mag}  = await Auditapi.upDate(id,this.state)
+   if(err==403){ return message.error(mag)} else if(err==404){ return message.error(mag)}
   //  console.log(this)
+   message.success(mag)
    this.props.history.replace('/admin/audit')
-
   }
   // 图片上传
   imgupload= async ()=>{
@@ -47,16 +47,19 @@ class GoodsAdd extends Component {
     
      let formData = new FormData()
     formData.append('src',file)
-    let {code,msg,path} = await uploadApi.upload(formData)
-    if(code){return message.error(msg)}
-    this.setState({path})
+    let {err,mag,path} = await uploadApi.upload(formData)
+    if(err==200){
+      message.success(mag)
+      this.setState({path})
+    }
+    
     
   }
   render() { 
     let {name,desc,path,phone,card,putaway} = this.state
     return ( 
       <div className={style.box}>
-         <Card title='商品添加'>
+         <Card title='商品修改'>
             名称: <input type='text' value={name} onChange={(e)=>{
               this.setState({name:e.target.value})
             }}/><br/>
@@ -82,9 +85,9 @@ class GoodsAdd extends Component {
             {/* 缩略图 */}
             缩略图:
             <input type="file" ref='img'/> <button onClick={this.imgupload}>上传图片</button>
-            {config.serverIp}
+            {/* {config.serverIp} */}
             <img width='120' height='80' src={config.serverIp+path} alt=""/>
-            <button onClick={this.submit}>添加</button>
+            <button onClick={this.submit}>修改</button>
          </Card>
       </div>
      );

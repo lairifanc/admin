@@ -8,7 +8,7 @@ export default class Audit extends Component {
         show:1,
         page:2,
         list:[],
-        count:0,
+        count:1,
         columns :[
             {title: '_id',dataIndex: '_id',key: '_id',width:120,fixed:'left'},
     {
@@ -91,8 +91,9 @@ export default class Audit extends Component {
     }
    
     delCustomer=async(_id)=>{
-        let {code,msg} =await Auditapi.del(_id)
-        if(code){return message.error(msg)}
+        let {err,mag} =await Auditapi.del(_id)
+        if(err==404){return message.error(mag)} else if(err==403){return message.error(mag)}
+        message.success(mag)
         this.getListData()
     }
     
@@ -106,21 +107,20 @@ export default class Audit extends Component {
              this.props.history.push('/admin/auditAdd')
            }}>添加</Button>
                <Table dataSource={list} columns={columns} rowKey='_id'
-               scroll={ {y:300,x:840}}
                pagination={false}
                >
 
 
                </Table>
                      {/* 分页器 */}
-            <Pagination  current={page} total={count} showQuickJumper pageSize={show}
-            onChange={(show,page)=>{
-              //只要页码数发生改变就会触发          
-              this.setState({page},()=>{
-                this.getListData()
-              })   
-            }}
-            />
+            <Pagination defaultCurrent={1} total={count} defaultCurrent={1} defaultPageSize={page}
+                onChange={(page)=>{
+                this.setState({show:page},()=>{
+                  this.getListData()
+                })
+                 }}
+                
+                />
                </Card>
             </div>
         )

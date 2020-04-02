@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Card,Input, message} from 'antd'
 import style from './index.module.less'
-import UploadApi from '@Api/Upload'
+import UploadApi from '@Api/upload.js'
 import config from '@config/index'
 import SlideApi from  '@Api/Slideshow'
 class SlideAdd extends Component{
@@ -22,14 +22,18 @@ class SlideAdd extends Component{
         if(types.indexOf(type.split('/')[1])===-1){return message.warning('图片类型只能是jpg,jpeg,gif,png')}
         let formData = new FormData()
         formData.append('src',file)
-        let {code,msg,path} = await UploadApi.upload(formData)
-        if(code){return message.error(msg)}
-        this.setState({path})
+        let {err,mag,path} = await UploadApi.upload(formData)
+        if(err==200){
+            message.success(mag)
+            this.setState({path})
+        }
+        
     }
     add = async()=>{
         if(!this.state.path){return message.info('请先上传图片')}
-        let {code,msg} = await SlideApi.add(this.state)
-        if(code){return message.error(msg)}
+        let {err,mag} = await SlideApi.add(this.state)
+        if(err==403){return message.error(mag)}else if(err==404){return message.error(mag)}
+        message.success('轮播图添加成功')
         this.props.history.replace('/admin/slideshow')
     } 
     render(h) {
