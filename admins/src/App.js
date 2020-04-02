@@ -1,7 +1,9 @@
 import React from 'react';
 import Longin from './pages/Longin/Longin'
 import Admin from './pages/Admin/Admin'
-import Goods from './pages/Goods/Goods'
+import GoodsList from './pages/Goods/GoodsList/Goods'
+import GoodsAdd from './pages/Goods/GoodsAdd/index'
+import GoodsInfoUpdata from './pages/Goods/GoodsUpdata'
 import AdminSte from './pages/AdminSte/AdminSte'
 import Administartor from './pages/Administartor/Administartor'
 import Audit from './pages/Audit/Audit'
@@ -27,12 +29,14 @@ function App() {
           <Route path='/admin' component={()=>{
             return (
               <Admin>
-                <Route path='/admin/goodsadd' component={Goods}></Route>
+                <Route path='/admin/goodsadd' component={GoodsList}></Route>
                 <Route path='/admin/home' component={Home}></Route>
                 <Route path='/admin/administartor' component={Administartor}></Route>
                 <Route path='/admin/slideshow' component={Slideshow}></Route>
                 <Route path='/admin/audit' component={Audit}></Route>
                 <Route path='/admin/set' component={AdminSte}></Route>
+                <Route path='/admin/goodadd' component={GoodsAdd}></Route>
+                <Route path='/admin/GoodsInfoUpdata/:id' component={GoodsInfoUpdata}></Route>
               </Admin>
             )
             
