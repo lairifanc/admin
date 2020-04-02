@@ -6,7 +6,9 @@ import GoodsAdd from './pages/Goods/GoodsAdd/index'
 import GoodsInfoUpdata from './pages/Goods/GoodsUpdata'
 import AdminSte from './pages/AdminSte/AdminSte'
 import Administartor from './pages/Administartor/Administartor'
-import Audit from './pages/Audit/Audit'
+import Audit from './pages/Audit/AuditList/Audit'
+import auditAdd from './pages/Audit/AuditAdd/index'
+import auditUpdate from './pages/Audit/Auditupdate/index'
 import Home from './pages/Home/Home'
 import Slideshow from './pages/Slideshow/Slideshow'
 import SlideAdd from '@pages/Slideshow/SlideAdd'
@@ -32,6 +34,8 @@ function App() {
                 <Route path='/admin/slideupdate/:id' component={SlideUpdate}></Route>
                 <Route path='/admin/adminupdate/:id' component={AdminUpdate}></Route>
                 <Route path='/admin/audit' component={Audit}></Route>
+                <Route path='/admin/auditAdd' component={auditAdd}></Route>
+                <Route path='/admin/auditUpdate/:id' component={auditUpdate}></Route>
                 <Route path='/admin/set' component={AdminSte}></Route>
                 <Route path='/admin/goodadd' component={GoodsAdd}></Route>
                 <Route path='/admin/GoodsInfoUpdata/:id' component={GoodsInfoUpdata}></Route>
